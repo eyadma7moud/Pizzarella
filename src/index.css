@@ -2,41 +2,71 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  background-color: #f7f7f7;
-  color: #444;
+@layer base {
+  body {
+    @apply font-body bg-crust text-charcoal;
+  }
+  h1, h2, h3 {
+    @apply font-heading;
+  }
+  :focus-visible {
+    @apply outline-none ring-2 ring-tomato ring-offset-2 ring-offset-crust rounded-lg;
+  }
 }
 
-.layout {
-  display: grid;
-  grid-template-rows: auto 1fr auto;
-  gap: 32px;
-  height: 100dvh;
-}
+@layer components {
+  .layout {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    min-height: 100dvh;
+  }
 
-/* https://dev.to/afif/i-made-100-css-loaders-for-your-next-project-4eje */
-.loader {
-  width: 45px;
-  aspect-ratio: 0.75;
-  --c: no-repeat linear-gradient(#333 0 0);
-  background: var(--c) 0% 50%, var(--c) 50% 50%, var(--c) 100% 50%;
-  background-size: 20% 50%;
-  animation: loading 1s infinite linear;
-}
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-tomato px-6 py-3
+      font-heading text-sm font-semibold tracking-wide text-crust shadow-warm
+      transition-all duration-200 ease-out
+      hover:bg-marinara hover:-translate-y-0.5 hover:shadow-lg
+      active:translate-y-0 active:shadow-sm
+      disabled:cursor-not-allowed disabled:bg-tomato/50 disabled:translate-y-0 disabled:shadow-none;
+  }
 
-@keyframes loading {
-  20% {
-    background-position: 0% 0%, 50% 50%, 100% 50%;
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border-2 border-charcoal/15 bg-white
+      px-6 py-3 font-heading text-sm font-semibold text-charcoal
+      transition-all duration-200 ease-out
+      hover:border-tomato hover:text-tomato hover:-translate-y-0.5
+      active:translate-y-0;
   }
-  40% {
-    background-position: 0% 100%, 50% 0%, 100% 50%;
+
+  .input-field {
+    @apply w-full rounded-2xl border-2 border-beige bg-white px-4 py-3 text-charcoal
+      placeholder:text-charcoal/40 shadow-sm transition-colors duration-150
+      focus:border-tomato;
   }
-  60% {
-    background-position: 0% 50%, 50% 100%, 100% 0%;
+
+  .label-text {
+    @apply mb-1.5 block font-heading text-sm font-semibold text-charcoal/80;
   }
-  80% {
-    background-position: 0% 50%, 50% 50%, 100% 100%;
+
+  /* Signature "crust ring" price badge */
+  .crust-badge {
+    @apply relative inline-flex items-center justify-center rounded-full border-2 border-dashed
+      border-cheese/70 bg-cheese/15 px-3 py-1 font-heading font-bold text-marinara;
+  }
+
+  .loader {
+    width: 45px;
+    aspect-ratio: 0.75;
+    --c: no-repeat linear-gradient(#e63946 0 0);
+    background: var(--c) 0% 50%, var(--c) 50% 50%, var(--c) 100% 50%;
+    background-size: 20% 50%;
+    animation: loading 1s infinite linear;
+  }
+
+  @keyframes loading {
+    20% { background-position: 0% 0%, 50% 50%, 100% 50%; }
+    40% { background-position: 0% 100%, 50% 0%, 100% 50%; }
+    60% { background-position: 0% 50%, 50% 100%, 100% 0%; }
+    80% { background-position: 0% 50%, 50% 50%, 100% 100%; }
   }
 }

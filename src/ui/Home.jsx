@@ -1,8 +1,9 @@
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
+import CreateUser from "../features/user/CreateUser";
 
 function Home() {
   return (
-    <div className="flex flex-col items-center gap-6 py-10 text-center sm:py-16">
+    <div className="flex flex-col items-center gap-6 py-10 text-center sm:py-10">
       <span className="rounded-full bg-basil/10 px-4 py-1 font-heading text-sm font-semibold text-basil">
         Fresh dough, daily 🌿
       </span>
@@ -12,9 +13,10 @@ function Home() {
         <span className="text-tomato">Straight out of the oven</span>, straight
         to you.
       </h1>
-      <Link to="/menu" className="btn-primary mt-2">
+      {/* <Link to="/menu" className="btn-primary mt-2">
         See the menu &rarr;
-      </Link>
+      </Link> */}
+      <CreateUser />
     </div>
   );
 }
