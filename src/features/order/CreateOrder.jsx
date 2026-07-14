@@ -2,6 +2,9 @@
 import { Form, redirect, useActionData, useNavigation } from "react-router-dom";
 import { createOrder } from "../../services/apiRestaurant";
 import { useSelector } from "react-redux";
+import { clearCart, getCart } from "../cart/cartSlice";
+import store from '../../store'
+import EmptyCart from "../cart/EmptyCart";
 
 // https://uibakery.io/regex-library/phone-number
 const isValidPhone = (str) =>
@@ -9,39 +12,43 @@ const isValidPhone = (str) =>
     str,
   );
 
-const fakeCart = [
-  {
-    pizzaId: 12,
-    name: "Mediterranean",
-    quantity: 2,
-    unitPrice: 16,
-    totalPrice: 32,
-  },
-  {
-    pizzaId: 6,
-    name: "Vegetale",
-    quantity: 1,
-    unitPrice: 13,
-    totalPrice: 13,
-  },
-  {
-    pizzaId: 11,
-    name: "Spinach and Mushroom",
-    quantity: 1,
-    unitPrice: 15,
-    totalPrice: 15,
-  },
-];
+// const fakeCart = [
+//   {
+//     pizzaId: 12,
+//     name: "Mediterranean",
+//     quantity: 2,
+//     unitPrice: 16,
+//     totalPrice: 32,
+//   },
+//   {
+//     pizzaId: 6,
+//     name: "Vegetale",
+//     quantity: 1,
+//     unitPrice: 13,
+//     totalPrice: 13,
+//   },
+//   {
+//     pizzaId: 11,
+//     name: "Spinach and Mushroom",
+//     quantity: 1,
+//     unitPrice: 15,
+//     totalPrice: 15,
+//   },
+// ];
 
 function CreateOrder() {
   // const [withPriority, setWithPriority] = useState(false);
-  const cart = fakeCart;
+  // const cart = fakeCart;
 
   const navigate = useNavigation();
   const isSubmitting = navigate.state === "submitting";
 
   const formErrors = useActionData();
   const username = useSelector((state) => state.user.username);
+
+  const cart = useSelector(getCart);
+  console.log(cart);
+  if (!cart.length) return <EmptyCart />;
 
   return (
     <div className="mx-auto max-w-xl">
@@ -58,7 +65,7 @@ function CreateOrder() {
             type="text"
             name="customer"
             value={username}
-            disabled
+            readOnly
             required
             className="cursor-not-allowed w-full rounded-2xl border-2 border-[#F3E1C4] px-4 py-3 text-[#2B2118]
               placeholder:text-[#2B2118]/40 shadow-sm outline-none transition-colors duration-150
@@ -124,7 +131,7 @@ function CreateOrder() {
             className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#E63946] px-6 py-3
               font-['Baloo_2'] text-sm font-semibold tracking-wide text-[#FFF8ED] shadow-[0_10px_30px_-10px_rgba(166,30,34,0.35)]
               transition-all duration-200 ease-out
-              hover:bg-[#A61E22] hover:-translate-y-0.5 hover:shadow-lg
+              hove r:bg-[#A61E22] hover:-translate-y-0.5 hover:shadow-lg
               active:translate-y-0 active:shadow-sm
               disabled:cursor-not-allowed disabled:bg-[#E63946]/50 disabled:translate-y-0 disabled:shadow-none
               sm:w-auto"
@@ -156,7 +163,7 @@ export async function action({ request }) {
   if (Object.keys(errors).length > 0) return errors;
 
   const newOrder = await createOrder(order);
-  console.log(newOrder);
+  store.dispatch(clearCart());
 
   return redirect(`/order/${newOrder.id}`);
 }

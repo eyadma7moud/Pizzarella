@@ -2,6 +2,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { formatCurrency } from "../../utils/helpers";
 import { addItem, deleteItem, getCurrentQuantityById } from "../cart/cartSlice";
+import UpdateItemQuantity from "./UpdeteItemQuantity";
 
 function MenuItem({ pizza }) {
   const { id, name, unitPrice, ingredients, soldOut, imageUrl } = pizza;
@@ -33,30 +34,35 @@ function MenuItem({ pizza }) {
         alt={name}
         className="h-24 w-24 shrink-0 rounded-2xl object-cover transition-transform duration-300 group-hover:scale-105 sm:h-40 sm:w-full"
       />
-      <div className="flex flex-1 flex-col justify-between gap-1 sm:gap-2">
+      <div className="flex flex-1 flex-col justify-between gap-2">
         <div>
           <p className="font-heading text-lg font-bold text-charcoal">{name}</p>
           <p className="text-sm text-charcoal/60">{ingredients.join(", ")}</p>
         </div>
-        <p className="">{formatCurrency(unitPrice)}</p>
+
+        <p className="crust-badge w-fit">{formatCurrency(unitPrice)}</p>
+
         <div>
           {!soldOut ? (
-            <div className="flex justify-between">
+            <div className="flex items-center justify-between gap-2">
               {currentQuantity ? (
-                <button
-                  onClick={() => {
-                    dispatch(deleteItem(id));
-                  }}
-                  className="btn-primary !px-5 !py-2 text-xs sm:text-sm"
-                >
-                  Remove from cart
-                </button>
+                <div className="flex flex-nowrap items-center gap-2">
+                  <button
+                    onClick={() => {
+                      dispatch(deleteItem(id));
+                    }}
+                    className="btn-danger-outline !px-3 !py-1.5 whitespace-nowrap"
+                  >
+                    Remove
+                  </button>
+                  <UpdateItemQuantity pizzaId={id} />
+                </div>
               ) : (
                 <button
                   onClick={() => {
                     handleAddItem();
                   }}
-                  className="btn-primary bg-yellow-500 hover:bg-yellow-600 !px-5 !py-2 text-xs sm:text-sm"
+                  className="btn-primary !px-5 !py-2 text-xs sm:text-sm"
                 >
                   Add to cart
                 </button>

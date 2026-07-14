@@ -6,6 +6,7 @@ import {
   formatCurrency,
   formatDate,
 } from "../../utils/helpers";
+import OrderItem from "./OrderItem";
 
 function Order() {
   const order = useLoaderData();
@@ -17,7 +18,7 @@ function Order() {
     priorityPrice,
     orderPrice,
     estimatedDelivery,
-    // cart,
+    cart,
   } = order;
 
   const deliveryIn = calcMinutesLeft(estimatedDelivery);
@@ -48,6 +49,12 @@ function Order() {
           (Estimated delivery: {formatDate(estimatedDelivery)})
         </p>
       </div>
+
+      <ul>
+        {cart.map((item) => (
+          <OrderItem key={item.pizzaId} item={item} />
+        ))}
+      </ul>
 
       <div className="flex flex-col gap-2 rounded-2xl bg-white p-5 shadow-soft">
         <p className="flex justify-between text-charcoal/80">
