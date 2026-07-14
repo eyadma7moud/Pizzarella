@@ -1,17 +1,14 @@
 /* eslint-disable react/prop-types */
 import { useDispatch, useSelector } from "react-redux";
 import { formatCurrency } from "../../utils/helpers";
-import { addItem } from "../cart/cartSlice";
-import { useState } from "react";
-import UpdateItemQuantity from "./UpdeteItemQuantity";
+import { addItem, deleteItem, getCurrentQuantityById } from "../cart/cartSlice";
 
 function MenuItem({ pizza }) {
-  const [clicked, setClicked] = useState(false);
-
   const { id, name, unitPrice, ingredients, soldOut, imageUrl } = pizza;
 
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart.cart);
+  const currentQuantity = useSelector(getCurrentQuantityById(id));
 
   function handleAddItem() {
     const newItem = {
@@ -45,17 +42,24 @@ function MenuItem({ pizza }) {
         <div>
           {!soldOut ? (
             <div className="flex justify-between">
-              <button
-                onClick={() => {
-                  setClicked(!clicked);
-                  handleAddItem();
-                }}
-                className="btn-primary !px-5 !py-2 text-xs sm:text-sm"
-              >
-                {clicked ? "Delete" : "Add to cart"}
-              </button>
-              {clicked && (
-                <UpdateItemQuantity pizzaId={id} currentQuantity={5} />
+              {currentQuantity ? (
+                <button
+                  onClick={() => {
+                    dispatch(deleteItem(id));
+                  }}
+                  className="btn-primary !px-5 !py-2 text-xs sm:text-sm"
+                >
+                  Remove from cart
+                </button>
+              ) : (
+                <button
+                  onClick={() => {
+                    handleAddItem();
+                  }}
+                  className="btn-primary bg-yellow-500 hover:bg-yellow-600 !px-5 !py-2 text-xs sm:text-sm"
+                >
+                  Add to cart
+                </button>
               )}
             </div>
           ) : (

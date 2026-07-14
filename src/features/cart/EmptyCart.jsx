@@ -11,7 +11,7 @@ function EmptyCart() {
       </Link>
       <span className="text-5xl">🍕</span>
       <p className="max-w-xs text-charcoal/70">
-        Your cart is still empty. Start adding some pizzas :)
+        Your cart is empty. Start adding some pizzas :)
       </p>
     </div>
   );
