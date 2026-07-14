@@ -1,8 +1,29 @@
 /* eslint-disable react/prop-types */
+import { useDispatch, useSelector } from "react-redux";
 import { formatCurrency } from "../../utils/helpers";
+import { addItem } from "../cart/cartSlice";
+import { useState } from "react";
+import UpdateItemQuantity from "./UpdeteItemQuantity";
 
 function MenuItem({ pizza }) {
-  const { name, unitPrice, ingredients, soldOut, imageUrl } = pizza;
+  const [clicked, setClicked] = useState(false);
+
+  const { id, name, unitPrice, ingredients, soldOut, imageUrl } = pizza;
+
+  const dispatch = useDispatch();
+  const cart = useSelector((state) => state.cart.cart);
+
+  function handleAddItem() {
+    const newItem = {
+      pizzaId: id,
+      name,
+      quantity: 1,
+      unitPrice,
+      totalPrice: unitPrice,
+    };
+    dispatch(addItem(newItem));
+    console.log(cart);
+  }
 
   return (
     <li
@@ -20,9 +41,23 @@ function MenuItem({ pizza }) {
           <p className="font-heading text-lg font-bold text-charcoal">{name}</p>
           <p className="text-sm text-charcoal/60">{ingredients.join(", ")}</p>
         </div>
+        <p className="">{formatCurrency(unitPrice)}</p>
         <div>
           {!soldOut ? (
-            <p className="crust-badge">{formatCurrency(unitPrice)}</p>
+            <div className="flex justify-between">
+              <button
+                onClick={() => {
+                  setClicked(!clicked);
+                  handleAddItem();
+                }}
+                className="btn-primary !px-5 !py-2 text-xs sm:text-sm"
+              >
+                {clicked ? "Delete" : "Add to cart"}
+              </button>
+              {clicked && (
+                <UpdateItemQuantity pizzaId={id} currentQuantity={5} />
+              )}
+            </div>
           ) : (
             <p className="inline-flex rounded-full bg-charcoal/10 px-3 py-1 font-heading text-sm font-semibold uppercase tracking-wide text-charcoal/50">
               Sold out

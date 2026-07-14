@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import CartItem from "./CartItem";
+import { useSelector } from "react-redux";
 
 const fakeCart = [
   {
@@ -27,6 +28,8 @@ const fakeCart = [
 
 function Cart() {
   const cart = fakeCart;
+    const username = useSelector((state) => state.user.username);
+
 
   return (
     <div className="animate-fadeIn">
@@ -38,7 +41,7 @@ function Cart() {
       </Link>
 
       <h2 className="mt-3 font-heading text-2xl font-bold text-charcoal sm:text-3xl">
-        Your cart, %NAME%
+        Your cart, {username}
       </h2>
       <ul className="mt-3 divide-y divide-stone-200 border-b">
         {cart.map((item) => (

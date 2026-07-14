@@ -5,7 +5,7 @@ function Error() {
   const error = useRouteError();
 
   return (
-    <div className="mx-auto flex max-w-md flex-col items-center gap-4 rounded-3xl bg-white px-8 py-12 text-center shadow-soft animate-fadeIn">
+    <div className="mt-28 mx-auto flex max-w-md flex-col items-center gap-4 rounded-3xl bg-white px-8 py-12 text-center shadow-soft animate-fadeIn">
       <span className="text-5xl">😢</span>
       <h1 className="font-heading text-2xl font-bold text-marinara">
         Something went wrong

@@ -1,6 +1,7 @@
 // import { useState } from "react";
 import { Form, redirect, useActionData, useNavigation } from "react-router-dom";
 import { createOrder } from "../../services/apiRestaurant";
+import { useSelector } from "react-redux";
 
 // https://uibakery.io/regex-library/phone-number
 const isValidPhone = (str) =>
@@ -40,6 +41,7 @@ function CreateOrder() {
   const isSubmitting = navigate.state === "submitting";
 
   const formErrors = useActionData();
+  const username = useSelector((state) => state.user.username);
 
   return (
     <div className="mx-auto max-w-xl">
@@ -50,13 +52,15 @@ function CreateOrder() {
       <Form method="POST" className="mt-8 flex flex-col gap-5">
         <div>
           <label className="mb-1.5 block font-['Baloo_2'] text-sm font-semibold text-[#2B2118]/80">
-            First Name
+            Full Name
           </label>
           <input
             type="text"
             name="customer"
+            value={username}
+            disabled
             required
-            className="w-full rounded-2xl border-2 border-[#F3E1C4] bg-white px-4 py-3 text-[#2B2118]
+            className="cursor-not-allowed w-full rounded-2xl border-2 border-[#F3E1C4] px-4 py-3 text-[#2B2118]
               placeholder:text-[#2B2118]/40 shadow-sm outline-none transition-colors duration-150
               focus:border-[#E63946] focus:ring-2 focus:ring-[#E63946]/30"
           />
