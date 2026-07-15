@@ -5,7 +5,7 @@ function OrderItem({ item,  }) {
   const { quantity, name, totalPrice } = item;
 
   return (
-    <li className="flex items-center justify-between gap-4 rounded-2xl bg-white px-4 py-3 shadow-sm">
+    <li className="flex mt-2 items-center justify-between gap-4 rounded-2xl bg-white px-4 py-3 shadow-sm">
       <div className="flex flex-1 items-center justify-between gap-3">
         <p className="font-medium text-charcoal">
           <span className="font-heading font-bold text-tomato">
